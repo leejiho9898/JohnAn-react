@@ -34,6 +34,8 @@ const userSchema = mongoose.Schema({
   },
 });
 
+
+
 userSchema.pre("save", function (next) {
   var user = this;
 
@@ -41,7 +43,6 @@ userSchema.pre("save", function (next) {
     //비밀번호를 암호화시킨다.
     bcrypt.genSalt(saltRounds, function (err, salt) {
       if (err) return next(err);
-
       bcrypt.hash(user.password, salt, function (err, hash) {
         if (err) return next(err);
         user.password = hash;
@@ -59,7 +60,6 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
     if (err) {
       return cb(err);
     }
-    console.log(isMatch);
     cb(null, isMatch);
   });
 };
