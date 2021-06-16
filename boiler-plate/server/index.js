@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 5000;
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser"); // 데이터를 .body 에 넣어주는 패키지
 const cookieParser = require("cookie-parser"); // 쿠키 쉽게 추출해주는 패키지
@@ -20,8 +19,9 @@ mongoose
   })
   .then(() => console.log("mongoDB Connected..."))
   .catch((err) => console.log(err));
+
 app.get("/api/hello", (req, res) => {
-  res.send("안녕하세요");
+res.send("안녕하세요");
 });
 
 app.get("/", (req, res) => {
@@ -123,6 +123,8 @@ app.get("/api/users/logout", auth, (req, res) => {
   });
 });
 
+
+const port = 5000;
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
