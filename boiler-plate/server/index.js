@@ -1,4 +1,4 @@
-import express from "express";
+const express = require("express");
 const app = express();
 const port = 5000;
 const mongoose = require("mongoose");
@@ -6,9 +6,9 @@ const bodyParser = require("body-parser"); // 데이터를 .body 에 넣어주�
 const cookieParser = require("cookie-parser"); // 쿠키 쉽게 추출해주는 패키지
 const config = require("./config/key"); // dev,prod 파일 불러주는거
 const { auth } = require("./middleware/auth"); //
-const { User } = require("../models/User.js"); // 함수랑 데이터 담아두는곳
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+const { User } = require("./models/User"); // 함수랑 데이터 담아두는곳
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 mongoose
@@ -20,6 +20,9 @@ mongoose
   })
   .then(() => console.log("mongoDB Connected..."))
   .catch((err) => console.log(err));
+app.get("/api/hello", (req, res) => {
+  res.send("안녕하세요");
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World! 안녕하세요");
@@ -35,7 +38,6 @@ app.post("/api/users/register", (req, res) => {
     });
   });
 });
-
 
 app.post("/login", (req, res) => {
   //요청된 이메일을 데이터베이스에 있는지 확인한다.
@@ -111,18 +113,15 @@ app.get("/api/users/auth", auth, (req, res) => {
   });
 });
 
-
-app.get('/api/users/logout', auth, (req, res) => {
-  console.log('req.user',req.user)
+app.get("/api/users/logout", auth, (req, res) => {
+  console.log("req.user", req.user);
   User.findOneAndUpdate({ _id: req.user_id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({
       success: true,
-    })
-  })
+    });
+  });
 });
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
