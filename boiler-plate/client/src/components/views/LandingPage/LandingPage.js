@@ -4,11 +4,26 @@ import axios from "axios";
 function LandingPage() {
   useEffect(() => {
     axios.get("/api/hello").then((response) => console.log(response.data));
-  }, [])
-  return <div style={{
-    display:"flex",justifyContent:'center',alignItems:'center',width:'100%',height:'100vh'
-  }}>
-    <h2>LandingPage</h2></div>;
+  }, []);
+  const onClickHander=()=>{
+    axios.get(`api/users/logout`)
+    .then(response => {
+      console.log(response.data)
+    })
+  }
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <h2>시작페이지</h2>
+      <button onClick={onClickHander}>로그아웃</button>
+    </div>
+  );
 }
 export default LandingPage;
-  

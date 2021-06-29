@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { registerUser } from "../../../_actions/user_action";
 
 function RegisterPage(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -22,7 +24,7 @@ function RegisterPage(props) {
   };
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    if (Password != ConfirmPassword) {
+    if (Password !== ConfirmPassword) {
       return alert("비밀번호와 비밀번호확인은 같아야 합니다.");
     }
 
@@ -34,7 +36,7 @@ function RegisterPage(props) {
 
     dispatch(registerUser(body)).then((response) => {
       if (response.payload.success) {
-        props.history.push("/login");
+        history.push("/login");
       } else {
         alert("Faild to sign up");
       }
